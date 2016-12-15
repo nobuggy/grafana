@@ -11,8 +11,13 @@ export default class ResponseParser {
     if (!influxResults.series) {
       return [];
     }
-
-    var influxdb11format = query.toLowerCase().indexOf('show tag values') >= 0;
+    var qlower = query.toLowerCase();
+    var influxdb11format = qlower.indexOf('show tag values') >= 0;
+    var field_and_tags = (qlower.indexOf('show field keys') >= 0 &&
+                          qlower.indexOf('show tag keys') >= 0);
+    if (field_and_tags) {
+      influxResults.series = influxResults.series.concat(results.results[1].series);
+    }
 
     var res = {};
     _.each(influxResults.series, serie => {

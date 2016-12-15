@@ -56,7 +56,8 @@ function (_) {
         query += ' WITH MEASUREMENT =~ /' + withMeasurementFilter +'/';
       }
     } else if (type === 'FIELDS') {
-      query = 'SHOW FIELD KEYS FROM "' + this.target.measurement + '"';
+      query = ('SHOW FIELD KEYS FROM "' + this.target.measurement + '";' +
+               'SHOW TAG KEYS FROM "' + this.target.measurement + '"');
       return query;
     } else if (type === 'RETENTION POLICIES') {
       query = 'SHOW RETENTION POLICIES on "' + this.database + '"';
